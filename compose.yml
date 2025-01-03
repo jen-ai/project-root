@@ -17,16 +17,22 @@ services:
     command: mongod --replSet rs0
     ports:
       - "27017:27017"
+    networks:
+      - mongodb-network
 
   mongodb-secondary:
     image: mongo
     container_name: mongodb-secondary
     command: mongod --replSet rs0
+    networks:
+      - mongodb-network
 
   mongodb-arbiter:
     image: mongo
     container_name: mongodb-arbiter
     command: mongod --replSet rs0
+    networks:
+      - mongodb-network
 
   stock-publisher:
     build:
@@ -106,3 +112,7 @@ services:
     depends_on:
       - stock-liveview-1
       - stock-liveview-2
+
+networks:
+  mongodb-network:
+    driver: bridge
