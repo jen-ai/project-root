@@ -1,0 +1,19 @@
+# Go tabanlı bir imaj kullan
+FROM golang:1.22
+
+# Çalışma dizinini ayarla
+WORKDIR /app
+
+# Go mod dosyasını kopyala ve bağımlılıkları yükle
+COPY go.mod ./
+COPY go.sum ./
+RUN go mod download
+
+# Kaynak kodları kopyala
+COPY . .
+
+# Projeyi derle
+RUN go build -o stock-publisher
+
+# Uygulamayı başlat
+CMD ["./stock-publisher"]
